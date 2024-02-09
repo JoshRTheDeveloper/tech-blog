@@ -8,19 +8,21 @@ router.get('/', async (req, res) => {
         return res.json(comments);
     } catch (err) {
         console.error(err);
-        return res.status(404).json(err);
+        return res.status(500).json(err);
     }
 });
 
 router.get('/:id', async (req, res) => {
     try {
         const comments = await Comment.findAll({
-            where:{ id: req.params.id}
-           });
+            where: {
+                id: req.params.id
+            }
+        });
         return res.json(comments);
     } catch (err) {
         console.error(err);
-        return res.status(404).json(err);
+        return res.status(500).json(err);
     }
 });
 
@@ -36,7 +38,7 @@ router.post('/', withAuth, async (req, res) => {
         }
     } catch (err) {
         console.error(err);
-        return res.status(404).json(err);
+        return res.status(400).json(err);
     }
 });
 
@@ -47,13 +49,13 @@ router.put('/:id', withAuth, async (req, res) => {
             { where: { id: req.params.id } }
         );
         if (!comments) {
-            res.status(404).json({ message: 'No comment found' });
+          res.status(404).json({ message: 'No comment found' });
             return;
         }
         return res.json(comments);
     } catch (err) {
         console.error(err);
-        return res.status(404).json(err);
+        return res.status(500).json(err);
     }
 });
 
@@ -63,13 +65,13 @@ router.delete('/:id', withAuth, async (req, res) => {
             where: { id: req.params.id }
         });
         if (!comments) {
-            res.status(404).json({ message: 'No comment found' });
+          res.status(404).json({ message: 'No comment found' });
             return;
         }
-       return res.json(comments);
+        res.json(comments);
     } catch (err) {
         console.error(err);
-       return res.status(404).json(err);
+        return res.status(500).json(err);
     }
 });
 
